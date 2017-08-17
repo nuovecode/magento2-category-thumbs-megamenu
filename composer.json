@@ -2,8 +2,7 @@
   "name": "bitbull/magento2-module-musetti-menu",
   "description": "Magento 2 Megamenu for Musetti store",
   "require": {
-    "php": "~5.5.0|~5.6.0|~7.0.0",
-    "magento/module-catalog": "100.0.*"
+    "php": "7.0.2|7.0.4|~7.0.6"
   },
   "type": "magento2-module",
   "autoload": {
