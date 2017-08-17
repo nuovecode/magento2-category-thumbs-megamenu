@@ -45,9 +45,9 @@ class AddToCategoryTopmenu implements ObserverInterface
         $childLevel = $parentLevel === null ? 0 : $parentLevel + 1;
 
         $menuId = $menuTree->getId();
-
+        
         if ($childLevel == 1 && $this->isCategory($menuId)) {
-            $html .= '<li class="category_image" style=""><img src="'.$this->getCategoryImage($menuId).'"/></li>';
+            $html .= '<div class="category_image"><img src="'.$this->getCategoryImage($menuId).'"/></div>';
         }
 
         $transport->setHtml($html);

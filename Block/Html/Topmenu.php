@@ -1,7 +1,6 @@
 <?php
 /**
  * Module Musetti Megamenu
- *
  */
 namespace Bitbull\MusettiMenu\Block\Html;
 
@@ -40,4 +39,16 @@ class Topmenu extends \Magento\Theme\Block\Html\Topmenu
 
         return $html;
     }
+
+    /**
+     * @return string
+     */
+
+    protected function _toHtml()
+    {
+        $this->setModuleName($this->extractModuleName('Magento\Theme\Block\Html\Topmenu'));
+        return parent::_toHtml();
+    }
+
+
 }
