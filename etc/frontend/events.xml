@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="vendor_topmenu_node_gethtml_after">
+        <observer name="bitbull_musettimenumenu_topmenu" instance="Bitbull\MusettiMenu\Observer\AddToCategoryTopmenu" />
+    </event>
+</config>
