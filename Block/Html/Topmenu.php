@@ -4,40 +4,55 @@
  */
 namespace Bitbull\MusettiMenu\Block\Html;
 
-use Magento\Framework\Data\Tree\Node;
+//use Magento\Framework\Data\Tree\Node;
 use Magento\Framework\DataObject;
-use Magento\Framework\View\Element\Template;
+//use Magento\Framework\View\Element\Template;
 
 class Topmenu extends \Magento\Theme\Block\Html\Topmenu
 {
+
     /**
-     * Recursively generates top menu html from data that is specified in $menuTree
      *
-     * @param Node   $menuTree          menu tree
-     * @param string $childrenWrapClass children wrap class
-     * @param int    $limit             limit
-     * @param array  $colBrakes         column brakes
+     * @param \Magento\Framework\Data\Tree\Node $child
+     * @param string $childLevel
+     * @param string $childrenWrapClass
+     * @param int $limit
      * @return string
-     *
-     * @SuppressWarnings(PHPMD)
      */
-    protected function _getHtml(
-        Node $menuTree,
+
+    protected function _addSubMenu(
+        $child,
+        $childLevel,
         $childrenWrapClass,
-        $limit,
-        $colBrakes = []
+        $limit
     ) {
-        $html = parent::_getHtml($menuTree, $childrenWrapClass, $limit, $colBrakes = []);
 
-        $transportObject = new DataObject(['html' => $html, 'menu_tree' => $menuTree]);
-        $this->_eventManager->dispatch(
-            'vendor_topmenu_node_gethtml_after',
-            ['menu' => $this->_menu, 'transport' => $transportObject]
-        );
+        $html = '';
 
-        $html = $transportObject->getHtml();
+        if ($childLevel < 1) {
+
+            $html .= '<ul class="level' . $childLevel . ' submenu">';
+            $html .= $this->_getHtml($child, $childrenWrapClass, $limit);
+            $html .= '</ul>';
+
+        }
+
+        if ($childLevel == 1) {
+
+            $transportObject = new DataObject(['html' => $html]);
+
+            $this->_eventManager->dispatch(
+                'vendor_topmenu_node_gethtml_after', [
+                    'transport' => $transportObject,
+                    'node' => $child->getId()
+                ]
+            );
+
+            $html = $transportObject->getHtml();
+        }
 
         return $html;
+
     }
 
     /**

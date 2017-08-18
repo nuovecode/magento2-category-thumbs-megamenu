@@ -23,9 +23,9 @@ class AddToCategoryTopmenu implements ObserverInterface
 
     /**
      * AddFirstCategoryImageToTopmenu constructor.
-     *
      * @param CategoryRepositoryInterface $categoryRepository repository
      */
+
     public function __construct(
         CategoryRepositoryInterface $categoryRepository
     ) {
@@ -35,31 +35,25 @@ class AddToCategoryTopmenu implements ObserverInterface
     /**
      * @param Observer $observer Observer object
      */
+
     public function execute(Observer $observer)
     {
+
         $transport = $observer->getTransport();
         $html      = $transport->getHtml();
-        $menuTree  = $transport->getMenuTree();
 
-        $parentLevel = $menuTree->getLevel();
-        $childLevel = $parentLevel === null ? 0 : $parentLevel + 1;
-
-        $menuId = $menuTree->getId();
-        
-        if ($childLevel == 1 && $this->isCategory($menuId)) {
-            $html .= '<div class="category_image"><img src="'.$this->getCategoryImage($menuId).'"/></div>';
-        }
+        $html .= '<img src="'.$this->getCategoryImage($observer->getNode()).'"/>';
 
         $transport->setHtml($html);
     }
 
     /**
-     * Retrieves the category image for the corresponding child
-     *
+     * Retrieves the category image for the corresponding category
      * @param string $categoryId Category composed ID
      *
      * @return string
      */
+
     protected function getCategoryImage($categoryId)
     {
         $categoryIdElements = explode('-', $categoryId);
@@ -69,17 +63,4 @@ class AddToCategoryTopmenu implements ObserverInterface
         return $categoryName;
     }
 
-    /**
-     * Check if current menu element corresponds to a category
-     *
-     * @param string $menuId Menu element composed ID
-     *
-     * @return string
-     */
-    protected function isCategory($menuId)
-    {
-        $menuId = explode('-', $menuId);
-
-        return 'category' == array_shift($menuId);
-    }
 }
